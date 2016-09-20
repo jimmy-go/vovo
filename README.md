@@ -1,5 +1,10 @@
 ####VoVo is a set of handlers, middlewares and tools for the web.
 
+#####Install:
+```
+go get gopkg.in/jimmy-go/vovo.v0
+```
+
 #####License:
 
 The MIT License (MIT)

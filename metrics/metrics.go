@@ -104,7 +104,7 @@ func Handler(h http.Handler) http.Handler {
 // use this when you want a control over paths with params
 // like /me/:var1/size/:var2 convert it to: /me/sizes
 //
-func Custom(path string) http.Handler {
+func Custom(path string) func(http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// skip prometheus default endpoint
