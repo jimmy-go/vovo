@@ -84,8 +84,8 @@ func DurationObs(start time.Time, s string) {
 	Durations.WithLabelValues(s).Observe(float64(tot) / 1000000)
 }
 
-// Mid metrics middleware.
-func Mid(h http.Handler) http.Handler {
+// Handler metrics middleware.
+func Handler(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// skip prometheus default endpoint
 		if r.RequestURI == "/metrics" {
@@ -100,11 +100,11 @@ func Mid(h http.Handler) http.Handler {
 	})
 }
 
-// MidCustom metrics middleware.
+// Custom metrics middleware.
 // use this when you want a control over paths with params
-// like /me/:var1/size/:var2
+// like /me/:var1/size/:var2 convert it to: /me/sizes
 //
-func MidCustom(customPath string) http.Handler {
+func Custom(path string) http.Handler {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// skip prometheus default endpoint
@@ -114,7 +114,7 @@ func MidCustom(customPath string) http.Handler {
 
 			start := time.Now()
 			h.ServeHTTP(w, r)
-			DurationObs(start, customPath)
+			DurationObs(start, path)
 		})
 	}
 }
