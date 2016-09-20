@@ -1,11 +1,4 @@
 // Package profiling contains a server for net profiling.
-/*
-
-	Use it import this way:
-	_ "github.com/jimmy-go/profiling"
-	will start a server on localhost:6060
-
-*/
 //
 // The MIT License (MIT)
 //
@@ -31,6 +24,7 @@
 package profiling
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"runtime"
@@ -39,13 +33,11 @@ import (
 	_ "net/http/pprof"
 )
 
-func init() {
-	log.Printf("Multi init")
+// Listen will start a server on port.
+func Listen(port int) {
 	runtime.SetBlockProfileRate(1)
-	go pprofServer()
-}
-
-func pprofServer() {
-	log.Printf("Multi : web pprofiling enabled : listening :6060")
-	log.Println(http.ListenAndServe("localhost:6060", nil))
+	go func(p int) {
+		log.Printf("Multi : web pprofiling enabled : listening :%v", p)
+		log.Println(http.ListenAndServe(fmt.Sprintf(":%v", p), nil))
+	}(port)
 }

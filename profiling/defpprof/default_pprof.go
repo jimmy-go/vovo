@@ -1,8 +1,9 @@
-// Package custom contains a server for net profiling listening
-// on port.
+// Package defpprof contains a server for net profiling.
 /*
-	Use it import this way:
-	custom.Listen(port int)
+	Use it this way:
+
+	_ "github.com/jimmy-go/profiling/defpprof"
+	will start a server on localhost:6060
 */
 //
 // The MIT License (MIT)
@@ -26,10 +27,9 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-package custom
+package defpprof
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"runtime"
@@ -38,11 +38,13 @@ import (
 	_ "net/http/pprof"
 )
 
-// Listen will start a server on port.
-func Listen(port int) {
+func init() {
+	log.Printf("Multi init")
 	runtime.SetBlockProfileRate(1)
-	go func(p int) {
-		log.Printf("Multi : web pprofiling enabled : listening :%v", p)
-		log.Println(http.ListenAndServe(fmt.Sprintf(":%v", p), nil))
-	}(port)
+	go pprofServer()
+}
+
+func pprofServer() {
+	log.Printf("Multi : web pprofiling enabled : listening :6060")
+	log.Println(http.ListenAndServe("localhost:6060", nil))
 }
