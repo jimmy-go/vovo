@@ -1,6 +1,4 @@
-# VoVo
-
-VoVo is a set of handlers, middlewares and tools for the web.
+####VoVo is a set of handlers, middlewares and tools for the web.
 
 #####License:
 
