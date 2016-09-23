@@ -23,10 +23,14 @@
 // SOFTWARE.
 package test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/jimmy-go/vovo/metrics"
+)
 
 // TestHandler will test handlers.
 // TODO;
 func TestHandler(t *testing.T) {
-
+	metrics.Custom("path")
 }
