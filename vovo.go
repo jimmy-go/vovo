@@ -1,4 +1,4 @@
-// Package vovo contains test for vovo http.Handlers.
+// Package vovo contains.
 //
 // The MIT License (MIT)
 //
@@ -22,15 +22,3 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 package vovo
-
-import (
-	"testing"
-
-	"github.com/jimmy-go/vovo/metrics"
-)
-
-// TestHandler will test handlers.
-// TODO;
-func TestHandler(t *testing.T) {
-	metrics.Custom("path")
-}
