@@ -1,4 +1,5 @@
-// Package vovo contains test for vovo http.Handlers.
+// Package host contains Middlewares for connection between
+// hosts.
 //
 // The MIT License (MIT)
 //
@@ -21,23 +22,29 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-package vovo
+package host
 
 import (
-	"testing"
-
-	"github.com/jimmy-go/vovo/host"
-	"github.com/jimmy-go/vovo/metrics"
+	"net/http"
+	"strings"
 )
 
-// TestMetrics will test handlers.
-// TODO;
-func TestMetrics(t *testing.T) {
-	metrics.Custom("path")
-}
+// Allow middleware validates the requests are from authorized hosts.
+// hosts must be hostnames separated by comma (,)
+func Allow(hosts string) func(http.Handler) http.Handler {
 
-// TestHost will test handlers.
-// TODO;
-func TestHost(t *testing.T) {
-	host.Allow("http://localhost:8080")
+	hs := strings.Split(hosts, ",")
+	return func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			for i := range hs {
+				if r.Host == hs[i] {
+					h.ServeHTTP(w, r)
+					return
+				}
+			}
+
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte("unauthorized access host"))
+		})
+	}
 }
