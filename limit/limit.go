@@ -29,7 +29,7 @@ import (
 )
 
 // Hard set hard limit for application.
-func Hard(x int) error {
+func Hard(x uint64) error {
 	var rLimit syscall.Rlimit
 	err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, &rLimit)
 	if err != nil {
