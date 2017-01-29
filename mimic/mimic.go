@@ -70,9 +70,9 @@ func Load(filename string) error {
 		return err
 	}
 
-	for k := range cache.List {
-		log.Printf("Load : list k [%s] [%#v]", k, cache.List[k])
-	}
+	//	for k := range cache.List {
+	//		log.Printf("Load : list k [%s] [%#v]", k, cache.List[k])
+	//	}
 
 	return nil
 }
@@ -198,13 +198,10 @@ func (j *JSONCatcher) Key(v interface{}) (string, error) {
 	switch e := v.(type) {
 	case *Endpoint:
 		// means cache is on prepare state and needs the slug from config file.
-		s := fmt.Sprintf("%v %v %v", e.Method, e.URI, e.Params)
-		log.Printf("Key : endpoint set [%s]", s)
-		return s, nil
+		return fmt.Sprintf("%v %v %v", e.Method, e.URI, e.Params), nil
 	case *http.Request:
 		// means catcher is finding this key in cache map.
 		s := fmt.Sprintf("%v %v %v", e.Method, e.RequestURI, e.Form.Encode())
-		log.Printf("Key : http request get [%s]", s)
 		_, err := Get(s)
 		if err == nil {
 			return s, nil
@@ -236,6 +233,9 @@ func (j *JSONCatcher) Catch(r *http.Request) (interface{}, bool) {
 
 // Render implements Catcher.
 func (j *JSONCatcher) Render(w http.ResponseWriter, v interface{}) error {
+
+	// VALIDATION
+
 	e, ok := v.(*Endpoint)
 	if !ok {
 		return errors.New("type not supported")
@@ -245,6 +245,8 @@ func (j *JSONCatcher) Render(w http.ResponseWriter, v interface{}) error {
 	if res == nil {
 		return errors.New("cache response body nil")
 	}
+
+	// IMPLEMENTATION
 
 	// set status.
 	w.WriteHeader(res.Status)
