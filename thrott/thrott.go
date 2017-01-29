@@ -1,4 +1,4 @@
-// Package limit contains tools to set backend hard-limit and soft-limit.
+// Package thrott contains rate limiter handler.
 //
 // The MIT License (MIT)
 //
@@ -21,29 +21,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-package limit
+package thrott
 
-import "syscall"
+import (
+	"log"
+	"net/http"
+	"time"
 
-// Hard set hard limit for application.
-func Hard(x uint64) error {
-	var rLimit syscall.Rlimit
-	err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, &rLimit)
-	if err != nil {
-		return err
+	"github.com/didip/tollbooth"
+)
+
+// Limit limits the request by client to count by second.
+func Limit(count int64) func(http.Handler) http.Handler {
+	return func(h http.Handler) http.Handler {
+		limiter := tollbooth.NewLimiter(count, time.Second)
+		limiter.IPLookups = []string{"X-Real-IP", "RemoteAddr", "X-Forwarded-For"}
+
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			tollbooth.SetResponseHeaders(limiter, w)
+
+			httpError := tollbooth.LimitByRequest(limiter, r)
+			if httpError != nil {
+				w.Header().Add("Content-Type", limiter.MessageContentType)
+				w.WriteHeader(httpError.StatusCode)
+				_, err := w.Write([]byte(httpError.Message))
+				if err != nil {
+					log.Printf("write response err [%s]", err)
+				}
+				return
+			}
+
+			h.ServeHTTP(w, r)
+		})
 	}
-
-	rLimit.Max = x
-	rLimit.Cur = x
-
-	err = syscall.Setrlimit(syscall.RLIMIT_NOFILE, &rLimit)
-	if err != nil {
-		return err
-	}
-	err = syscall.Getrlimit(syscall.RLIMIT_NOFILE, &rLimit)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
