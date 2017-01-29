@@ -1,6 +1,5 @@
-// Package metrics contains prometheus metrics for requests,
-// request duration and errors count.
-// Middleware func allows easy handler register.
+// Package metrics contains prometheus metrics for requests, request duration
+// and errors count.
 //
 // The MIT License (MIT)
 //

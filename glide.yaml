@@ -1,0 +1,7 @@
+package: github.com/jimmy-go/vovo
+import:
+- package: github.com/didip/tollbooth
+- package: github.com/prometheus/client_golang
+  subpackages:
+  - prometheus
+- package: gopkg.in/yaml.v2

@@ -1,5 +1,4 @@
-// Package host contains Middlewares for connection between
-// hosts.
+// Package host contains middleware for host allow request.
 //
 // The MIT License (MIT)
 //

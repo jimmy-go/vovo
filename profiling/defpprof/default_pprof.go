@@ -2,7 +2,8 @@
 /*
 	Use it this way:
 
-	_ "github.com/jimmy-go/profiling/defpprof"
+		_ "github.com/jimmy-go/profiling/defpprof"
+
 	will start a server on localhost:6060
 */
 //

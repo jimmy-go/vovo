@@ -254,10 +254,8 @@ func (j *JSONCatcher) Render(w http.ResponseWriter, v interface{}) error {
 	// set custom headers.
 
 	for k, val := range res.Headers {
-		log.Printf("Render : set header k v [%v][%v]", k, val)
 		w.Header().Set(k, val)
 	}
-	w.Header().Set("AnotherHeader", "empty")
 
 	if _, err := fmt.Fprint(w, res.Body); err != nil {
 		return err

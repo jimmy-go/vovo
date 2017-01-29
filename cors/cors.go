@@ -1,6 +1,4 @@
-// Package cors contains middleware to enable site CORS.
-// request duration and errors count.
-// Middleware func allows easy handler register.
+// Package cors contains middleware to enable CORS.
 //
 // The MIT License (MIT)
 //
@@ -30,9 +28,9 @@ import (
 	"strings"
 )
 
-// New returns a middleware with allow-access-control-origins header.
+// Handler handler middleware with allow-access-control-origins header.
 // origins is a string with hosts separated by comma.
-func New(origins string) func(http.Handler) http.Handler {
+func Handler(origins string) func(http.Handler) http.Handler {
 	ors := strings.Split(origins, ",")
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -45,7 +43,8 @@ func New(origins string) func(http.Handler) http.Handler {
 				}
 			}
 
-			w.Write([]byte("host not supported"))
+			w.Write([]byte("host not allowed"))
+			w.WriteHeader(http.StatusUnauthorized)
 		})
 	}
 }
