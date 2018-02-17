@@ -1,5 +1,11 @@
 ## V0V0 is a collection of handlers, middlewares and tools for servers.
 
+[![License MIT](https://img.shields.io/npm/l/express.svg)](http://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/jimmy-go/vovo.svg?branch=master)](https://travis-ci.org/jimmy-go/vovo)
+[![Go Report Card](https://goreportcard.com/badge/github.com/jimmy-go/vovo)](https://goreportcard.com/report/github.com/jimmy-go/vovo)
+[![GoDoc](http://godoc.org/github.com/jimmy-go/vovo?status.png)](http://godoc.org/github.com/jimmy-go/vovo)
+[![Coverage Status](https://coveralls.io/repos/github/jimmy-go/vovo/badge.svg?branch=master)](https://coveralls.io/github/jimmy-go/vovo?branch=master)
+
 ### Install:
 ```
 go get gopkg.in/jimmy-go/vovo.v0
