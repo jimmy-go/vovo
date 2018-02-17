@@ -1,11 +1,11 @@
-####VoVo is a set of handlers, middlewares and tools for web servers.
+## V0V0 is a collection of handlers, middlewares and tools for servers.
 
-#####Install:
+### Install:
 ```
 go get gopkg.in/jimmy-go/vovo.v0
 ```
 
-#####Features:
+### Features:
 
 + limit: rate limiter handler.
 + cors: middleware for common cors headers.
@@ -13,7 +13,7 @@ go get gopkg.in/jimmy-go/vovo.v0
 + mimic: mockup endpoint tool with middleware.
 + profiling: default and custom pprof server.
 
-#####License:
+### License:
 
 The MIT License (MIT)
 
