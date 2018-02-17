@@ -8,7 +8,7 @@ go get gopkg.in/jimmy-go/vovo.v0
 ### Features:
 
 + limit: rate limiter handler.
-+ cors: middleware for common cors headers.
++ cors: cors handler.
 + metrics: prometheus metrics for request count, duration and error.
 + mimic: mockup endpoint tool with middleware.
 + profiling: default and custom pprof server.
